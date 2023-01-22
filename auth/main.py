@@ -41,24 +41,34 @@ async def games_list(start: int, count: int, region: str, api_key: APIKey = Depe
 
 
 @app.get("/games_data/")
-async def games_data(app_id: int, api_key: APIKey = Depends(auth.get_api_key)):
-    len_of_chars = 8
-    filename = ''.join(random.choices(string.ascii_uppercase + string.digits, k=len_of_chars))
+async def games_data(app_id, api_key: APIKey = Depends(auth.get_api_key)):
+    if app_id.isdigit():
 
-    full_name = '/tmp/' + filename + '.json'
-    print(full_name)
+        print(type(app_id))
+        len_of_chars = 8
+        filename = ''.join(random.choices(string.ascii_uppercase + string.digits, k=len_of_chars))
 
-    # if os.path.exists(f"{path}/{filename}.js"):
-    #     os.remove(f"{path}/games_data.js")
+        full_name = '/tmp/' + filename + '.json'
+        print(full_name)
 
-    scrapy_runner.steam_games_data(app_id, full_name)
-    f = open(f"{full_name}")
-    print(f)
-    d = json.load(f)
-    json_str = json.dumps(d[0], indent=4, sort_keys=True, default=str)
-    print(json_str)
-    os.remove(f"{full_name}")
-    return Response(json_str, media_type='application/json')
+        # if os.path.exists(f"{path}/{filename}.js"):
+        #     os.remove(f"{path}/games_data.js")
+
+        scrapy_runner.steam_games_data(app_id, full_name)
+        f = open(f"{full_name}")
+        print(f)
+        d = json.load(f)
+        json_str = json.dumps(d[0], indent=4, sort_keys=True, default=str)
+        print(json_str)
+        os.remove(f"{full_name}")
+        return Response(json_str, media_type='application/json')
+
+    else:
+
+        print(type(app_id))
+        json_str = json.dumps({
+                                  "Error": f"AppID you entered is '{app_id}' and it is incorrect or not an Integer as in Digits (Ex: 123456), Please enter the correct APP_ID and try agein. Also refer to the API Documentation for more details."})
+        return Response(json_str, media_type='application/json')
 
 
 ''' AMAZON REVIEWS API '''
