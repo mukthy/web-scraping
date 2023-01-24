@@ -107,14 +107,21 @@ async def bestbuy_products(page: int, keyword: str, api_key: APIKey = Depends(au
     print(full_name)
 
     scrapy_runner.bestbuy_data(page, keyword, full_name)
-    f = open(f"{full_name}")
-    print("Printing the file")
-    print(f)
-    d = json.load(f)
-    json_str = json.dumps(d, indent=4, sort_keys=True, default=str)
-    print(json_str)
-    os.remove(f"{full_name}")
-    return Response(json_str, media_type='application/json')
+    file_size = os.path.getsize(f"{full_name}")
+    print("Size of File", file_size)
+    if file_size == 0:
+        json_str = json.dumps({
+                                  "Error": f"BestBuy API returned no data, You have entered '{keyword}' as search keyword. Please check the keyword you entered and try again."})
+        return Response(json_str, media_type='application/json')
+    else:
+        f = open(f"{full_name}")
+        print("Printing the file")
+        print(f)
+        d = json.load(f)
+        json_str = json.dumps(d, indent=4, sort_keys=True, default=str)
+        print(json_str)
+        # os.remove(f"{full_name}")
+        return Response(json_str, media_type='application/json')
 
 
 sys.path.append('..')
