@@ -157,6 +157,24 @@ async def market_news_india(symbol: str, api_key: APIKey = Depends(auth.get_api_
     return data
 
 
+''' Playstation Store Deals API '''
+sys.path.append('..')
+from ps_store import ps_store
+
+
+@app.get("/playstation_deals/")
+async def playstation_game_deals(count, api_key: APIKey = Depends(auth.get_api_key)):
+    if count.isdigit():
+        data = ps_store.ps_games_data(count)
+        return data
+
+    else:
+        json_str = json.dumps({
+                                  "Error": f"Count you entered is '{count}' and it is incorrect or not an Integer as in Digits (Ex: 123456), Please enter the correct Count and try agein. Also refer to the API Documentation for more details."})
+        return Response(json_str, media_type='application/json')
+
+
+
 if __name__ == '__main__':
     import uvicorn
 
