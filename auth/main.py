@@ -157,6 +157,13 @@ async def market_news_india(symbol: str, api_key: APIKey = Depends(auth.get_api_
     return data
 
 
+# Get the live US Stock price from MoneyControl using the Ticker Symbol.
+@app.get("/us_stockprice_live/")
+async def us_stockprice_live(symbol: str, api_key: APIKey = Depends(auth.get_api_key)):
+    data = us_stockprice.get_stockprice(symbol)
+    return data
+
+
 ''' Playstation Store Deals API '''
 sys.path.append('..')
 from ps_store import ps_store
