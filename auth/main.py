@@ -127,6 +127,7 @@ async def bestbuy_products(page: int, keyword: str, api_key: APIKey = Depends(au
 sys.path.append('..')
 from finance_data_mining.grow_in_stocks import grow_in
 from finance_data_mining.yahoo_finance_news import news
+from finance_data_mining.us_stockprice_live import us_stockprice
 
 ''' Finance Data Mining API '''
 
