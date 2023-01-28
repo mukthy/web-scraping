@@ -182,6 +182,22 @@ async def playstation_game_deals(count, api_key: APIKey = Depends(auth.get_api_k
         return Response(json_str, media_type='application/json')
 
 
+''' Realtor RealEstate API '''
+sys.path.append('..')
+from realtor import realtor
+
+
+@app.get("/realtor_data/")
+async def realtor_data(city: str, state_code: str, api_key: APIKey = Depends(auth.get_api_key)):
+    if city and state_code is not None:
+        data = realtor.get_realtor_data(city, state_code)
+        return data
+
+    else:
+        json_str = json.dumps({
+                                  "Error": f"City or State Code '{city}' or '{state_code}' you entered it is incorrect or null/blank, Please enter the correct City & State Code then try agein. Also refer to the API Documentation for more details."})
+        return Response(json_str, media_type='application/json')
+
 
 if __name__ == '__main__':
     import uvicorn
