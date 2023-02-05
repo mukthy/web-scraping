@@ -19,3 +19,12 @@ def amazon_reviews_starter(asin, domain, pageNum, full_name):
 def bestbuy_data(page, keyword, full_name):
     path = '/Users/mukthy/Desktop/office/projects/upwork/steam/steamgames'
     subprocess.call([f'scrapy crawl bestbuy.com -a page={page} -a keyword={keyword} -o {full_name}'], shell=True, cwd=f'{path}')
+
+
+# Realtor Property Scrapy Starter
+def realtor_property(city, state_code, offset, full_name):
+    path = '/Users/mukthy/Desktop/office/projects/upwork/steam/steamgames'
+    subprocess.call(
+        [f'scrapy crawl realtor_property.com -a city="{city}" -a state_code={state_code} -a offset={offset} -o {full_name}'],
+        shell=True, cwd=f'{path}')
+    
