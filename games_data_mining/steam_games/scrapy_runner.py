@@ -35,4 +35,11 @@ def realtor_agent(page, city, state_code, full_name):
     subprocess.call(
         [f'scrapy crawl realtor_agent_com -a page={page} -a city="{city}" -a state_code={state_code} -o {full_name}'],
         shell=True, cwd=f'{path}')
-    
+
+
+# Realtor School Scrapy Starter
+def realtor_school(city, state_code, school_level, page, full_name):
+    path = '/Users/mukthy/Desktop/office/projects/upwork/steam/steamgames'
+    subprocess.call(
+        [f'scrapy crawl realtor_schools_com -a city="{city}" -a state_code="{state_code}" -a school_level="{school_level}" -a page="{page}" -o {full_name}'],
+        shell=True, cwd=f'{path}')
