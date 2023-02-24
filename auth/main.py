@@ -105,6 +105,8 @@ async def bestbuy_products(page: int, keyword: str, api_key: APIKey = Depends(au
 
     full_name = '/tmp/' + filename + '.json'
     print(full_name)
+    keyword = "'"+keyword+"'"
+    print(keyword)
 
     scrapy_runner.bestbuy_data(page, keyword, full_name)
     file_size = os.path.getsize(f"{full_name}")
