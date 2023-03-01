@@ -43,3 +43,11 @@ def realtor_school(city, state_code, school_level, page, full_name):
     subprocess.call(
         [f'scrapy crawl realtor_schools_com -a city="{city}" -a state_code="{state_code}" -a school_level="{school_level}" -a page="{page}" -o {full_name}'],
         shell=True, cwd=f'{path}')
+
+
+# Indeed Jobs API Scrapy Starter
+def indeed_us(offset, keyword, location, full_name):
+    path = '/home/mukthy/Desktop/office/projects/upwork/steam/steamgames'
+    subprocess.call(
+        [f'scrapy crawl indeed_us -a offset="{offset}" -a keyword="{keyword}" -a location="{location}" -o {full_name}'],
+        shell=True, cwd=f'{path}')
