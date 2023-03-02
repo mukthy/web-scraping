@@ -126,6 +126,40 @@ async def bestbuy_products(page: int, keyword: str, api_key: APIKey = Depends(au
         return Response(json_str, media_type='application/json')
 
 
+''' USA JOBS Data API '''
+
+@app.get("/indeed-us/")
+async def indeed_us_jobs(offset: int, keyword: str, location: str, api_key: APIKey = Depends(auth.get_api_key)):
+    len_of_chars = 8
+    filename = ''.join(random.choices(string.ascii_uppercase + string.digits, k=len_of_chars))
+
+    full_name = '/tmp/' + filename + '.json'
+    print(full_name)
+    keyword = "'"+keyword+"'"
+    print(keyword)
+    location = "'"+location+"'"
+    print(location)
+    # scrapy_runner.indeed_us(offset, keyword, location, full_name)
+    scrapy_runner.indeed_us(offset, keyword, location, full_name)
+    file_size = os.path.getsize(f"{full_name}")
+    print("Size of File", file_size)
+    if file_size == 0:
+        json_str = json.dumps({
+            "Error": f"Jobs API returned no data, You have entered '{keyword}' and {location} as search keyword. Please check the keyword you entered and try again."})
+        return Response(json_str, media_type='application/json')
+    else:
+        f = open(f"{full_name}")
+        print("Printing the file")
+        print(f)
+        d = json.load(f)
+        json_str = json.dumps(d, indent=4, sort_keys=True, default=str)
+        print(json_str)
+        # os.remove(f"{full_name}")
+        return Response(json_str, media_type='application/json')
+
+
+
+
 sys.path.append('..')
 from finance_data_mining.grow_in_stocks import grow_in
 from finance_data_mining.yahoo_finance_news import news
